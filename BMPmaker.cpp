@@ -128,7 +128,7 @@ int main (int nArgs, char* Args[]) {
 	// typedef char fileBuffer[fileSize];
 	
 	//The data to the file is stored in this variable
-	char bmpfile[fileSize];
+	char* bmpfile = new char[fileSize];
 	
 	
 	int i = 0;
@@ -169,6 +169,8 @@ int main (int nArgs, char* Args[]) {
 	// myfile << bmpfile;
 
 	myfile.close();
+	
+	free(bmpfile);
 	
 	return 0;
 }
