@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -8,14 +9,8 @@ using namespace std;
 
 void printMultipleBits(char file[],int data,int &startPos,int bits)
 {
-	int devide;
 	for(int i=0;i<bits;i++){
-		if(i==0){
-			devide = 1;
-		}
-		else{
-			devide = 256*i;
-		}
+		int devide = pow(256,i);
 		file[startPos + i] = (data/devide) % 256;
 	}
 	startPos += bits;
@@ -161,6 +156,10 @@ int main (int nArgs, char* Args[]) {
 	for(int a=0;a<count;a++){
 		printByte(bmpfile,data[a],i);
 	}
+	for(int a=0;a<imageDataSize-count;a++){
+		printByte(bmpfile,' ',i);
+	}
+	
 	
 	
 	//Write to file
