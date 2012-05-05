@@ -49,6 +49,19 @@ string parameterValue(int nArgs, char* Args[],string arg){
 	return "";
 }
 
+void printInfo(string data,bool printBool){
+	if(printBool){
+		cout<<data;
+	}
+}
+
+void printInfo(int data,bool printBool){
+	if(printBool){
+		cout<<data;
+	}
+}
+
+
 int main (int nArgs, char* Args[]) {
 	
 	//Count the number of characters and put the characters in a string
@@ -65,6 +78,22 @@ int main (int nArgs, char* Args[]) {
 	int ArgWidth = atoi(parameterValue(nArgs,Args,"-w").c_str());
 	int ArgHeight = atoi(parameterValue(nArgs,Args,"-h").c_str());
 	string ArgName = parameterValue(nArgs,Args,"-n");
+	char ArgChar = atoi(parameterValue(nArgs,Args,"-c").c_str());
+	bool ArgInfo = parameterExist(nArgs,Args,"-i");
+	
+	
+	
+	
+	
+	//Choose the name of the BMPfile
+	string filename;
+	if(ArgName==""){
+		filename = "a.bmp";
+	}
+	else{
+		filename = ArgName;
+	}
+	
 	
 	
 	//Standard
@@ -115,16 +144,11 @@ int main (int nArgs, char* Args[]) {
 		imageHeight = standardHeight;
 	}
 	
-	cout << imageHeight << imageWidth;
-	
-	
-	
-	
-
-	
 	int imageDataSize = imageWidth*imageHeight*3;
 	
 	int fileSize = headerSize+imageDataSize;
+	
+
 	
 	// typedef char fileBuffer[fileSize];
 	
@@ -158,18 +182,22 @@ int main (int nArgs, char* Args[]) {
 		printByte(bmpfile,data[a],i);
 	}
 	for(int a=0;a<imageDataSize-count;a++){
-		printByte(bmpfile,' ',i);
+		printByte(bmpfile,ArgChar,i);
 	}
 	
 	
-	//Determens the name of the BMPfile
-	string filename;
-	if(ArgName==""){
-		filename = "a.bmp";
-	}
-	else{
-		filename = ArgName;
-	}
+	//Print info if the -i option is used
+	printInfo("Width: ",ArgInfo);
+	printInfo(imageWidth,ArgInfo);
+	printInfo("px \n",ArgInfo);
+	printInfo("Height: ",ArgInfo);
+	printInfo(imageHeight,ArgInfo);
+	printInfo("px \n",ArgInfo);
+	
+	printInfo("Total size: ",ArgInfo);
+	printInfo(fileSize,ArgInfo);
+	printInfo(" bytes\n",ArgInfo);
+	
 	
 	
 	//Write to file
