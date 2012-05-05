@@ -40,6 +40,17 @@ bool parameterExist(int nArgs, char* Args[],string arg){
 	return false;
 }
 
+bool parameterExist(int nArgs, char* Args[],string args[]){
+	for(int a=0;a<sizeof(args);a++){
+		for(int i=1;i<nArgs;i++){
+			if(Args[i]==args[a]){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 string parameterValue(int nArgs, char* Args[],string arg){
 	for(int i=1;i<nArgs-1;i++){
 		if(Args[i]==arg){
@@ -61,8 +72,37 @@ void printInfo(int data,bool printBool){
 	}
 }
 
+void printHelpText(){
+	cout << "Usage: bmpmaker [OPTIONS]" << endl << endl;
+	cout << "Options:" << endl;
+	cout << " -w <width>		Choose the width of the image. The height will\n			be automatically determined if -h is not choosed" << endl;
+	cout << " -h <height>		Choose the height of the image. The width will\n			be automatically determined if -w is not choosed" << endl;
+	cout << " -o <file>		Place the output in <file>. Standard\n			name is a.bmp" << endl;
+	cout << " -c <ascii>		If the appliction needs to fill the image with\n			junk data this character will be used. Standard\n			is null" << endl;
+	cout << " -i 			Prints information about the image on\n			the screen" << endl;
+	cout << " -h --help 		Shows this info" << endl;
+}
+
 
 int main (int nArgs, char* Args[]) {
+	
+	//Arguments
+	int ArgWidth = atoi(parameterValue(nArgs,Args,"-w").c_str());
+	int ArgHeight = atoi(parameterValue(nArgs,Args,"-h").c_str());
+	string ArgName = parameterValue(nArgs,Args,"-o");
+	char ArgChar = atoi(parameterValue(nArgs,Args,"-c").c_str());
+	bool ArgInfo = parameterExist(nArgs,Args,"-i");
+	string helpOptions[] = {"-h","--help"};
+	bool ArgHelp = parameterExist(nArgs,Args,helpOptions);
+	
+	
+	if(ArgHelp){
+		printHelpText();
+		return 0;
+	}
+	
+	
+	
 	
 	//Count the number of characters and put the characters in a string
 	char c;
@@ -73,15 +113,6 @@ int main (int nArgs, char* Args[]) {
 		data += c;
 		count++;
     }
-	
-	//Arguments
-	int ArgWidth = atoi(parameterValue(nArgs,Args,"-w").c_str());
-	int ArgHeight = atoi(parameterValue(nArgs,Args,"-h").c_str());
-	string ArgName = parameterValue(nArgs,Args,"-n");
-	char ArgChar = atoi(parameterValue(nArgs,Args,"-c").c_str());
-	bool ArgInfo = parameterExist(nArgs,Args,"-i");
-	
-	
 	
 	
 	
