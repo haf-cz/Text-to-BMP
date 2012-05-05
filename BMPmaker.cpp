@@ -64,6 +64,7 @@ int main (int nArgs, char* Args[]) {
 	//Arguments
 	int ArgWidth = atoi(parameterValue(nArgs,Args,"-w").c_str());
 	int ArgHeight = atoi(parameterValue(nArgs,Args,"-h").c_str());
+	string ArgName = parameterValue(nArgs,Args,"-n");
 	
 	
 	//Standard
@@ -161,10 +162,19 @@ int main (int nArgs, char* Args[]) {
 	}
 	
 	
+	//Determens the name of the BMPfile
+	string filename;
+	if(ArgName==""){
+		filename = "a.bmp";
+	}
+	else{
+		filename = ArgName;
+	}
+	
 	
 	//Write to file
 	ofstream myfile;
-	myfile.open ("test.bmp");
+	myfile.open (filename.c_str());
 	myfile.write(bmpfile, fileSize);
 	// myfile << bmpfile;
 
