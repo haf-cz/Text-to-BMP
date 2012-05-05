@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include <math.h>
 using namespace std;
 
@@ -35,35 +36,95 @@ void printByte(char file[],int byte,int &startPos)
 	printMultipleBits(file,byte,startPos,1);
 }
 
-int main () {
+bool parameterExist(int nArgs, char* Args[],string arg){
+	for(int i=1;i<nArgs;i++){
+		if(Args[i]==arg){
+			return true;
+		}
+	}
+	return false;
+}
+
+string parameterValue(int nArgs, char* Args[],string arg){
+	for(int i=1;i<nArgs-1;i++){
+		if(Args[i]==arg){
+			return Args[i+1];
+		}
+	}
+	return "";
+}
+
+int main (int nArgs, char* Args[]) {
 	
 	//Count the number of characters and put the characters in a string
 	char c;
 	string data;
 	int count = 0;
-    cin >> noskipws;    // Stops all further whitespace skipping
-    while (cin >> c) {  // Reads whitespace chars now.
+    cin >> noskipws;  // No whitespace skipping
+    while (cin >> c) {
 		data += c;
 		count++;
     }
+	
+	//Arguments
+	int ArgWidth = atoi(parameterValue(nArgs,Args,"-w").c_str());
+	int ArgHeight = atoi(parameterValue(nArgs,Args,"-h").c_str());
 	
 	
 	//Standard
 	int headerSize = 0x36;
 	
 	
-	//More specifik settings
 	int pixelsNeeded = ceil(count/3.0);
 	
+	
+	
+	
+	// Width and height
+	int imageHeight;
 	int imageWidth;
-	if(pixelsNeeded/4 % 4 == 0){
-		imageWidth = pixelsNeeded/4;
+	if(ArgWidth>0 && ArgHeight>0){
+		imageHeight = ArgHeight;
+		imageWidth = ArgWidth;
+	}
+	else if(ArgWidth>0){
+		int division = pixelsNeeded/ArgWidth;
+		if(division % ArgWidth == 0){
+			imageHeight = division;
+		}
+		else{
+			imageHeight = division+4-division%4;
+		}
+		imageWidth = ArgWidth;
+	}
+	else if(ArgHeight>0){
+		int division = pixelsNeeded/ArgHeight;
+		if(division % ArgHeight == 0){
+			imageWidth = division;
+		}
+		else{
+			imageWidth = division+4-division%4;
+		}
+		imageHeight = ArgHeight;
 	}
 	else{
-		imageWidth = pixelsNeeded/4+4-(pixelsNeeded/4)%4;
+		int standardHeight = 4;
+		int division = pixelsNeeded/4;
+		if(division % standardHeight == 0){
+			imageWidth = division;
+		}
+		else{
+			imageWidth = division+standardHeight-division%standardHeight;
+		}
+		imageHeight = standardHeight;
 	}
 	
-	int imageHeight = 4;
+	cout << imageHeight << imageWidth;
+	
+	
+	
+	
+
 	
 	int imageDataSize = imageWidth*imageHeight*3;
 	
@@ -109,6 +170,7 @@ int main () {
 	// myfile << bmpfile;
 
 	myfile.close();
+	
 	return 0;
 }
 
