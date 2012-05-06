@@ -3,6 +3,7 @@ Introduction
 Text-to-BMP lets you take your own data and create a BMP image out of it.
 
 Usage: bmpmaker [OPTIONS]
+Reads data from stdin
 
 ````
 Options:
@@ -25,9 +26,13 @@ Options:
  -h --help              Shows this info
 ````
 
+Example usage:
+````
+bmpmaker -h 40 -o my_image.bmp < my_data.txt
+````
 
-#### Example
-The hitchhikers guide to the galaxy as BMP:
+#### Example rendering
+The hitchhikers guide to the galaxy:
 
 ![The hitchhikers guide to the galaxy](http://lindell.github.com/Text-to-BMP/hitchhikers.bmp)
 
