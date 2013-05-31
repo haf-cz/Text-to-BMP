@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -239,7 +238,9 @@ int main (int nArgs, char* Args[]) {
 
 	myfile.close();
 	
-	free(bmpfile);
+	//free(bmpfile);
+	delete [] bmpfile;
+	bmpfile = NULL;
 	
 	return 0;
 }
